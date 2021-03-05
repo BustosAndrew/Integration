@@ -1,0 +1,9 @@
+{
+  "generator-teams": {
+    "promptValues": {
+      "developer": "Andrew Bustos"
+    },
+    "libraryName": "integration",
+    "generator-version": "3.0.3"
+  }
+}
