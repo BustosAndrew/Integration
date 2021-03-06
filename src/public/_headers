@@ -1,4 +1,0 @@
-/*    
- Strict-Transport-Security: max-age=63072000; www.boxintegrationapi.com; preload
- /index.html   200
- Content-Security-Policy: frame-ancestors teams.microsoft.com *.teams.microsoft.com *.skype.com
