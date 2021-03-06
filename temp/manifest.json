@@ -1,0 +1,47 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.8",
+  "id": "b3decf90-7df7-11eb-9182-773e3921ae9c",
+  "version": "0.0.1",
+  "packageName": "integration",
+  "developer": {
+    "name": "Andrew Bustos",
+    "websiteUrl": "https://www.boxintegrationapi.com",
+    "privacyUrl": "https://www.boxintegrationapi.com/privacy.html",
+    "termsOfUseUrl": "https://www.boxintegrationapi.com/tou.html"
+  },
+  "name": {
+    "short": "Box-Tab",
+    "full": "Box-Tab"
+  },
+  "description": {
+    "short": "TODO: add short description here",
+    "full": "TODO: add full description here"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "accentColor": "#D85028",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://www.boxintegrationapi.com/boxTab/config.html?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team"
+      ]
+    }
+  ],
+  "staticTabs": [],
+  "bots": [],
+  "connectors": [],
+  "composeExtensions": [],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "www.boxintegrationapi.com"
+  ],
+  "showLoadingIndicator": false
+}
