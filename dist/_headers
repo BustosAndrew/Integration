@@ -1,3 +1,11 @@
+/
+ Link: </web/styles/main.css rel=preload as=stylesheet
+ Link: </web/scripts/client.js rel=preload as=scripts
+ Link: </web/assets/icon.png rel=preload as=image
+
 /*    
  Strict-Transport-Security: max-age=63072000; www.boxintegrationapi.com; preload
  Content-Security-Policy: frame-ancestors teams.microsoft.com *.teams.microsoft.com *.skype.com
+
+ /web/assets/*
+  Cache-Control: public, max-age=360000
