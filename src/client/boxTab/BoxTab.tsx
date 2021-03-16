@@ -18,21 +18,25 @@ import * as microsoftTeams from "@microsoft/teams-js";
 // List items
 const items = [
     <ListItem
+        key={"excel"}
         index={0}
         header={"Add excel extension query."}
         content={"Or type :xlsx at the end of your search."}
     ></ListItem>,
     <ListItem
+        key={"docx"}
         index={1}
         header={"Add docx extension query."}
         content={"Or type :docx at the end of your search."}
     ></ListItem>,
     <ListItem
+        key={"pptx"}
         index={2}
         header={"Add PPT extension query."}
         content={"Or type :pptx at the end of your search."}
     ></ListItem>,
     <ListItem
+        key={"pdf"}
         index={3}
         header={"Add PDF extension query."}
         content={"Or type :pdf at the end of your search."}
@@ -79,7 +83,7 @@ const AccordionPanel = () => {
  * Implementation of the Box Tab content page
  */
 export const BoxTab = () => {
-    const [{ inTeams, theme, context }] = useTeams();
+    const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
 
     useEffect(() => {
@@ -149,7 +153,9 @@ export const BoxTab = () => {
                 <Flex.Item
                     styles={{
                         margin: "5% auto",
-                        border: "1px solid black",
+                        border:
+                            "1px solid " +
+                            (themeString === "default" ? "black" : "white"),
                         padding: "25%",
                         borderRadius: "25px"
                     }}
