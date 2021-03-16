@@ -100,7 +100,7 @@ export const BoxTab = () => {
      * The render() method to create the UI of the tab
      */
     return (
-        <Provider theme={theme} styles={{ background: "lightblue" }}>
+        <Provider theme={theme}>
             <Flex
                 fill={true}
                 styles={{
