@@ -8,7 +8,6 @@ import * as microsoftTeams from "@microsoft/teams-js";
  * Implementation of Box Tab configuration page
  */
 export const BoxTabConfig = () => {
-
     const [{ inTeams, theme, context }] = useTeams({});
     const [text, setText] = useState<string>();
     const entityId = useRef("");
@@ -16,8 +15,12 @@ export const BoxTabConfig = () => {
     const onSaveHandler = (saveEvent: microsoftTeams.settings.SaveEvent) => {
         const host = "https://" + window.location.host;
         microsoftTeams.settings.setSettings({
-            contentUrl: host + "/boxTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
-            websiteUrl: host + "/boxTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+            contentUrl:
+                host +
+                "/boxTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
+            websiteUrl:
+                host +
+                "/boxTab/?name={loginHint}&tenant={tid}&group={groupId}&theme={theme}",
             suggestedDisplayName: "Box Tab",
             removeUrl: host + "/boxTab/remove.html?theme={theme}",
             entityId: entityId.current
@@ -33,7 +36,7 @@ export const BoxTabConfig = () => {
             microsoftTeams.settings.setValidityState(true);
             microsoftTeams.appInitialization.notifySuccess();
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [context]);
 
     return (
@@ -53,7 +56,8 @@ export const BoxTabConfig = () => {
                                     entityId.current = data.value;
                                 }
                             }}
-                            required />
+                            required
+                        />
                     </div>
                 </Flex.Item>
             </Flex>

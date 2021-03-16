@@ -8,7 +8,6 @@ import * as microsoftTeams from "@microsoft/teams-js";
  * Implementation of Box Tab remove page
  */
 export const BoxTabRemove = () => {
-
     const [{ inTeams, theme }] = useTeams();
 
     useEffect(() => {
