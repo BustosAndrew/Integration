@@ -14,6 +14,7 @@ import {
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
+import axios from "axios";
 
 // List items
 const items = [
@@ -85,6 +86,7 @@ const AccordionPanel = () => {
 export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
+    const [authToken, setAuthToken] = useState("");
 
     useEffect(() => {
         if (inTeams === true) {
@@ -92,6 +94,9 @@ export const BoxTab = () => {
         } else {
             setEntityId("Not in Microsoft Teams");
         }
+        axios.get("/secret").then(function (res) {
+            setAuthToken(res.data.token);
+        });
     }, [inTeams]);
 
     useEffect(() => {
@@ -156,11 +161,10 @@ export const BoxTab = () => {
                         border:
                             "1px solid " +
                             (themeString === "default" ? "black" : "white"),
-                        padding: "25%",
                         borderRadius: "25px"
                     }}
                 >
-                    <Text>List view</Text>
+                    <div className="container"></div>
                 </Flex.Item>
             </Flex>
         </Provider>

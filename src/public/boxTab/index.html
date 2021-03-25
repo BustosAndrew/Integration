@@ -1,19 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="UTF-8" />
-    <title>Box Tab</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- inject:css -->
-    <!-- endinject -->
-  </head>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Box Tab</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=es6,Intl"></script>
+        <link
+            rel="stylesheet"
+            href="https://cdn01.boxcdn.net/platform/elements/11.0.2/en-US/explorer.css"
+        />
+        <!-- inject:css -->
+        <!-- endinject -->
+    </head>
 
-  <body>
-    <div id="app">Loading...</div>
-    <!-- inject:js -->
-    <!-- endinject -->
-    <script type="text/javascript">
-      integration.render(integration.BoxTab, document.getElementById('app'), {})
-    </script>
-  </body>
+    <body>
+        <div id="app">Loading...</div>
+        <!-- <div class="container"></div> -->
+        <!-- inject:js -->
+        <!-- endinject -->
+        <script type="text/javascript">
+            integration.render(
+                integration.BoxTab,
+                document.getElementById("app"),
+                {}
+            );
+        </script>
+        <script src="https://cdn01.boxcdn.net/platform/elements/11.0.2/en-US/explorer.js"></script>
+        <script>
+            var token = fetch("/secret")
+                .then((res) => res.json())
+                .then((data) => {
+                    return data.token;
+                });
+            var folderId = "0";
+            var contentExplorer = new Box.ContentExplorer();
+            contentExplorer.show(folderId, `token`, {
+                container: ".container"
+            });
+        </script>
+    </body>
 </html>

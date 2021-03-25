@@ -6,6 +6,7 @@ import * as React from "react";
 export const render = (type: any, element: HTMLElement) => {
     ReactDOM.render(React.createElement(type, {}), element);
 };
+// const dotenv = require("dotenv").config;
 // Automatically added for the boxTab tab
 export * from "./boxTab/BoxTab";
 export * from "./boxTab/BoxTabConfig";
