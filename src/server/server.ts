@@ -25,15 +25,15 @@ const port = process.env.port || process.env.PORT || 3007;
 
 express.get("/auth", function (req, res) {
     const baseUrl = "https://account.box.com/api/oauth2/authorize";
-    const clientId = `${process.env.REACT_APP_CLIENT_ID}`;
+    const clientId = `${process.env.CLIENT_ID}`;
     const authorizationUrl = `${baseUrl}?client_id=${clientId}&response_type=code`;
     res.redirect(authorizationUrl);
 });
 
 express.get("/client", function (req, res) {
     const client: any = {
-        id: `${process.env.REACT_APP_CLIENT_ID}`,
-        secret: `${process.env.REACT_APP_CLIENT_SECRET}`
+        id: `${process.env.CLIENT_ID}`,
+        secret: `${process.env.CLIENT_SECRET}`
     };
 
     res.send(client);
