@@ -29,15 +29,20 @@
         </script>
         <script src="https://cdn01.boxcdn.net/platform/elements/11.0.2/en-US/explorer.js"></script>
         <script>
-            var token = fetch("/secret")
-                .then((res) => res.json())
-                .then((data) => {
-                    return data.token;
+            let url = window.location.href;
+            let code = url.substr(url.indexOf("=") + 1);
+            integration.getToken(code).then(function (access_token) {
+                let folderId = "0";
+                if (code !== undefined || access_token !== undefined) {
+                    const contentExplorer = new Box.ContentExplorer();
+                    contentExplorer.show(folderId, `${access_token}`, {
+                        container: ".container"
+                    });
+                }
+                const contentExplorer = new Box.ContentExplorer();
+                contentExplorer.show(folderId, "token", {
+                    container: ".container"
                 });
-            var folderId = "0";
-            var contentExplorer = new Box.ContentExplorer();
-            contentExplorer.show(folderId, `token`, {
-                container: ".container"
             });
         </script>
     </body>

@@ -14,7 +14,6 @@ import {
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import * as microsoftTeams from "@microsoft/teams-js";
-import axios from "axios";
 
 // List items
 const items = [
@@ -94,9 +93,6 @@ export const BoxTab = () => {
         } else {
             setEntityId("Not in Microsoft Teams");
         }
-        axios.get("/secret").then(function (res) {
-            setAuthToken(res.data.token);
-        });
     }, [inTeams]);
 
     useEffect(() => {
@@ -157,11 +153,7 @@ export const BoxTab = () => {
                 </Flex.Item>
                 <Flex.Item
                     styles={{
-                        margin: "5% auto",
-                        border:
-                            "1px solid " +
-                            (themeString === "default" ? "black" : "white"),
-                        borderRadius: "25px"
+                        margin: "5% 10%"
                     }}
                 >
                     <div className="container"></div>

@@ -23,6 +23,22 @@ import * as allComponents from "./TeamsAppsComponents";
 const express = Express();
 const port = process.env.port || process.env.PORT || 3007;
 
+express.get("/auth", function (req, res) {
+    const baseUrl = "https://account.box.com/api/oauth2/authorize";
+    const clientId = `${process.env.REACT_APP_CLIENT_ID}`;
+    const authorizationUrl = `${baseUrl}?client_id=${clientId}&response_type=code`;
+    res.redirect(authorizationUrl);
+});
+
+express.get("/client", function (req, res) {
+    const client: any = {
+        id: `${process.env.REACT_APP_CLIENT_ID}`,
+        secret: `${process.env.REACT_APP_CLIENT_SECRET}`
+    };
+
+    res.send(client);
+});
+
 // Inject the raw request body onto the request object
 express.use(
     Express.json({
@@ -69,21 +85,6 @@ express.use(
 
 // Set the port
 express.set("port", port);
-
-express.get("/secret", function (req, res) {
-    const sdk = new BoxSDK({
-        clientID: `${process.env.REACT_APP_CLIENT_ID}`,
-        clientSecret: `${process.env.REACT_APP_CLIENT_SECRET}`
-    });
-
-    const authorizeUrl = sdk.getAuthorizeURL({
-        response_type: "code"
-    });
-    // res.set("Access-Control-Allow-Origin", "http://localhost:3007");
-    res.send({
-        token: `${authorizeUrl}`
-    });
-});
 
 // Start the webserver
 http.createServer(express).listen(port, () => {
