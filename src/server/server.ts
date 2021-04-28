@@ -27,7 +27,8 @@ express.get("/auth", function (req, res) {
     const baseUrl = "https://account.box.com/api/oauth2/authorize";
     const clientId = `${process.env.CLIENT_ID}`;
     const authorizationUrl = `${baseUrl}?client_id=${clientId}&response_type=code`;
-    res.redirect(authorizationUrl);
+    res.send(authorizationUrl);
+    //res.redirect(authorizationUrl);
 });
 
 express.get("/client", function (req, res) {

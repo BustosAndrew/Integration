@@ -3,7 +3,7 @@
 // Please avoid from modifying to much...
 import * as ReactDOM from "react-dom";
 import * as React from "react";
-import axios from "axios";
+import axios, { AxiosInstance } from "axios";
 import * as microsoftTeams from "@microsoft/teams-js";
 
 const qs = require("qs");
@@ -29,14 +29,21 @@ export const getToken = async function (code: string) {
     return accessToken.data.access_token;
 };
 
-// export const getContentUrl = () => {
-//     const context: any = microsoftTeams.getContext(
-//         (context: microsoftTeams.Context) => {
-//             return context;
-//         }
-//     );
-//     return context.frameContext.contentUrl;
-// };
+export const getAuthUrl = async () => {
+    const url = await axios.get<string>("/auth", {
+        headers: { "Access-Control-Allow-Origin": "*" }
+    });
+    return url.data;
+};
+
+export const getParentUrl = () => {
+    let isInIframe: boolean = parent !== window,
+        parentUrl: string = "";
+
+    if (isInIframe) parentUrl = document.referrer;
+    if (parentUrl !== "") console.log(parentUrl);
+    return parentUrl;
+};
 
 // Automatically added for the boxTab tab
 export * from "./boxTab/BoxTab";

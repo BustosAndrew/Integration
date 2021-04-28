@@ -20,10 +20,6 @@
         <!-- inject:js -->
         <script src="/scripts/client.js"></script>
         <!-- endinject -->
-        <a
-            href="https://techcommunity.microsoft.com/t5/microsoft-teams/is-it-possible-to-use-popup-windows-in-a-teams-channel-web-tab/m-p/115953"
-            >Click</a
-        >
         <script type="text/javascript">
             integration.render(
                 integration.BoxTab,
@@ -33,21 +29,32 @@
         </script>
         <script src="https://cdn01.boxcdn.net/platform/elements/11.0.2/en-US/explorer.js"></script>
         <script>
-            let url = window.location.href;
-            let code = url.substr(url.indexOf("=") + 1);
-            integration.getToken(code).then(function (access_token) {
-                let folderId = "0";
-                if (code !== undefined || access_token !== undefined) {
-                    const contentExplorer = new Box.ContentExplorer();
-                    contentExplorer.show(folderId, `${access_token}`, {
-                        container: ".container"
-                    });
-                }
-                const contentExplorer = new Box.ContentExplorer();
-                contentExplorer.show(folderId, "token", {
-                    container: ".container"
+            let authWindow;
+            const authUrl = integration
+                .getAuthUrl()
+                .then((authorizationUrl) => {
+                    authWindow = window.open(authorizationUrl);
                 });
-            });
+            window.addEventListener(
+                "message",
+                (event) => {
+                    if (
+                        event.origin !==
+                        "https://box-integration-tab.herokuapp.com"
+                    )
+                        return;
+                    integration
+                        .getToken(event.data)
+                        .then(function (access_token) {
+                            let folderId = "0";
+                            const contentExplorer = new Box.ContentExplorer();
+                            contentExplorer.show(folderId, `${access_token}`, {
+                                container: ".container"
+                            });
+                        });
+                },
+                false
+            );
         </script>
     </body>
 </html>
