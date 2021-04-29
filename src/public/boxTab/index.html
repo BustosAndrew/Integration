@@ -32,7 +32,7 @@
                 .getAuthUrl()
                 .then((authorizationUrl) => {
                     // authWindow = window.open(authorizationUrl);
-                    microsoftTeams.authentication.authenticate({
+                    integration.microsoftTeams.authentication.authenticate({
                         url: authorizationUrl,
                         width: 600,
                         height: 535,
