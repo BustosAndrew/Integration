@@ -35,7 +35,6 @@
             const authUrl = integration
                 .getAuthUrl()
                 .then((authorizationUrl) => {
-                    // authWindow = window.open(authorizationUrl);
                     integration.getTeamsRef().authentication.authenticate({
                         url: authorizationUrl,
                         width: 600,
@@ -60,26 +59,16 @@
                         }
                     });
                 });
-            // window.addEventListener(
-            //     "message",
-            //     (event) => {
-            //         if (
-            //             event.origin !==
-            //             "https://box-integration-tab.herokuapp.com"
-            //         )
-            //             return;
-            //         integration
-            //             .getToken(event.data)
-            //             .then(function (access_token) {
-            //                 let folderId = "0";
-            //                 const contentExplorer = new Box.ContentExplorer();
-            //                 contentExplorer.show(folderId, `${access_token}`, {
-            //                     container: ".container"
-            //                 });
-            //             });
-            //     },
-            //     false
-            // );
+            window.onload = () => {
+                const code = new URLSearchParams(window.location.search).get(
+                    "code"
+                );
+                if (code) {
+                    integration
+                        .getTeamsRef()
+                        .authentication.notifySuccess(code);
+                }
+            };
         </script>
     </body>
 </html>

@@ -92,12 +92,6 @@ export const BoxTab = () => {
             microsoftTeams.appInitialization.notifySuccess();
         } else {
             setEntityId("Not in Microsoft Teams");
-            const code = new URLSearchParams(window.location.search).get(
-                "code"
-            );
-            if (code) {
-                microsoftTeams.authentication.notifySuccess(code);
-            }
         }
     }, [inTeams]);
 
