@@ -11,7 +11,7 @@ export const render = (type: any, element: HTMLElement) => {
     ReactDOM.render(React.createElement(type, {}), element);
 };
 
-export const getToken = async function (code: string) {
+export const getToken = async function (code: string | undefined) {
     const authenticationUrl = "https://api.box.com/oauth2/token";
     const clientDetails: any = await axios.get("/client");
     let accessToken = await axios.post(
@@ -43,6 +43,26 @@ export const getParentUrl = () => {
     if (parentUrl !== "") console.log(parentUrl);
     return parentUrl;
 };
+
+// export const setAuthPopup = (authUrl : string) => {
+// microsoftTeams.authentication.authenticate({
+//                         url: authUrl,
+//                         width: 600,
+//                         height: 535,
+//                         successCallback: function (result) {
+//                             getToken(result)
+//                                 .then(function (access_token) {
+//                                     let folderId = "0";
+//                                     const contentExplorer = new Box.ContentExplorer();
+//                                     contentExplorer.show(
+//                                         folderId,
+//                                         `${access_token}`,
+//                                         {
+//                                             container: ".container"
+//                                         }
+//                                     );
+//                                 })
+// }
 
 // Automatically added for the boxTab tab
 export * from "./boxTab/BoxTab";
