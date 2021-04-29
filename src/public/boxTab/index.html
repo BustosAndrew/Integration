@@ -32,15 +32,14 @@
         </script>
         <script src="https://cdn01.boxcdn.net/platform/elements/11.0.2/en-US/explorer.js"></script>
         <script>
-            // let authWindow;
             const authUrl = integration
                 .getAuthUrl()
                 .then((authorizationUrl) => {
                     // authWindow = window.open(authorizationUrl);
-                    authentication.authenticate({
+                    integration.getTeamsRef().authentication.authenticate({
                         url: authorizationUrl,
                         width: 600,
-                        height: 535,
+                        height: 900,
                         successCallback: function (result) {
                             integration
                                 .getToken(result)
