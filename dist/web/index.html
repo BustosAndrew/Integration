@@ -32,11 +32,17 @@
         ></script>
         <script>
             window.onload = () => {
+                const url = new URLSearchParams(window.location.search).get(
+                    "url"
+                );
+                if (url) {
+                    location = url;
+                }
                 const code = new URLSearchParams(window.location.search).get(
                     "code"
                 );
                 if (code) {
-                    microsoftTeams.authentication.notifySuccess(code);
+                    microsoftTeams.authentication.notifySuccess(`${code}`);
                 }
             };
         </script>

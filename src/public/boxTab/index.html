@@ -42,7 +42,7 @@
                 .getAuthUrl()
                 .then((authorizationUrl) => {
                     integration.getTeamsRef().authentication.authenticate({
-                        url: authorizationUrl,
+                        url: "https://box-integration-tab.herokuapp.com/?url="+ encodeURIComponent(authorizationUrl),
                         width: 600,
                         height: 900,
                         successCallback: function (result) {
