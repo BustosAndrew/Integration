@@ -31,7 +31,14 @@
             crossorigin="anonymous"
         ></script>
         <script>
-            // const targetWindow = window.opener;
+            window.onload = () => {
+                const code = new URLSearchParams(window.location.search).get(
+                    "code"
+                );
+                if (code) {
+                    microsoftTeams.authentication.notifySuccess(code);
+                }
+            };
         </script>
     </body>
 </html>
