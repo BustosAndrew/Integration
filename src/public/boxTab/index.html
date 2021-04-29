@@ -27,32 +27,55 @@
         </script>
         <script src="https://cdn01.boxcdn.net/platform/elements/11.0.2/en-US/explorer.js"></script>
         <script>
-            let authWindow;
+            // let authWindow;
             const authUrl = integration
                 .getAuthUrl()
                 .then((authorizationUrl) => {
-                    authWindow = window.open(authorizationUrl);
+                    // authWindow = window.open(authorizationUrl);
+                    microsoftTeams.authentication.authenticate({
+                        url: authorizationUrl,
+                        width: 600,
+                        height: 535,
+                        successCallback: function (result) {
+                            integration
+                                .getToken(result)
+                                .then(function (access_token) {
+                                    let folderId = "0";
+                                    const contentExplorer = new Box.ContentExplorer();
+                                    contentExplorer.show(
+                                        folderId,
+                                        `${access_token}`,
+                                        {
+                                            container: ".container"
+                                        }
+                                    );
+                                });
+                        },
+                        failureCallback: () => {
+                            console.log("Error authenticating client.");
+                        }
+                    });
                 });
-            window.addEventListener(
-                "message",
-                (event) => {
-                    if (
-                        event.origin !==
-                        "https://box-integration-tab.herokuapp.com"
-                    )
-                        return;
-                    integration
-                        .getToken(event.data)
-                        .then(function (access_token) {
-                            let folderId = "0";
-                            const contentExplorer = new Box.ContentExplorer();
-                            contentExplorer.show(folderId, `${access_token}`, {
-                                container: ".container"
-                            });
-                        });
-                },
-                false
-            );
+            // window.addEventListener(
+            //     "message",
+            //     (event) => {
+            //         if (
+            //             event.origin !==
+            //             "https://box-integration-tab.herokuapp.com"
+            //         )
+            //             return;
+            //         integration
+            //             .getToken(event.data)
+            //             .then(function (access_token) {
+            //                 let folderId = "0";
+            //                 const contentExplorer = new Box.ContentExplorer();
+            //                 contentExplorer.show(folderId, `${access_token}`, {
+            //                     container: ".container"
+            //                 });
+            //             });
+            //     },
+            //     false
+            // );
         </script>
     </body>
 </html>

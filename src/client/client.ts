@@ -14,7 +14,6 @@ export const render = (type: any, element: HTMLElement) => {
 export const getToken = async function (code: string) {
     const authenticationUrl = "https://api.box.com/oauth2/token";
     const clientDetails: any = await axios.get("/client");
-
     let accessToken = await axios.post(
         authenticationUrl,
         qs.stringify({
