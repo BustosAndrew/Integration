@@ -151,13 +151,18 @@ export const BoxTab = () => {
                         </div>
                     </div>
                 </Flex.Item>
-                {/* <Flex.Item
+                <Flex.Item
                     styles={{
-                        margin: "5% 10%"
+                        margin: "5% 0",
+                        marginBottom: 0,
+                        width: "100%",
+                        height: "100%",
+                        padding: 0,
+                        minWidth: "320px"
                     }}
                 >
                     <div className="container"></div>
-                </Flex.Item> */}
+                </Flex.Item>
             </Flex>
         </Provider>
     );
