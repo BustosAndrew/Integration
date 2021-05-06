@@ -153,7 +153,7 @@ export const BoxTab = () => {
                 </Flex.Item>
                 <Flex.Item
                     styles={{
-                        margin: "5% 0",
+                        margin: 0,
                         marginBottom: 0,
                         width: "100%",
                         height: "100%",
