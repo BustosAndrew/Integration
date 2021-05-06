@@ -60,8 +60,8 @@
                                     );
                                 });
                         },
-                        failureCallback: () => {
-                            console.log("Error authenticating client.");
+                        failureCallback: (result) => {
+                            console.log(result);
                         }
                     });
                 });

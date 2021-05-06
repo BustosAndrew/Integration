@@ -24,11 +24,6 @@
         <article class="l-article">
             <p>Generate a Microsoft Teams application.</p>
         </article>
-        <script
-            src="https://statics.teams.cdn.office.net/sdk/v1.9.0/js/MicrosoftTeams.min.js"
-            integrity="sha384-bcRxWKfzRyPxg/waVm3IsOnaH2Inoh5gGIJNOat79+wq22/BZ+mFuSTUmVc7l2el"
-            crossorigin="anonymous"
-        ></script>
         <script>
             window.onload = () => {
                 const url = new URLSearchParams(window.location.search).get(
@@ -36,12 +31,6 @@
                 );
                 if (url) {
                     location = url;
-                }
-                const code = new URLSearchParams(window.location.search).get(
-                    "code"
-                );
-                if (code) {
-                    microsoftTeams.authentication.notifySuccess(`${code}`);
                 }
             };
         </script>
