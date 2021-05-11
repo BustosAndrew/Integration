@@ -21,7 +21,6 @@
 
     <body>
         <div id="app">Loading...</div>
-        <!-- <div class="container"></div> -->
         <!-- inject:js -->
         <!-- endinject -->
         <script type="text/javascript">
@@ -37,34 +36,20 @@
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/openwith.js"></script>
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/sidebar.js"></script>
         <script>
-            const authUrl = integration
-                .getAuthUrl()
-                .then((authorizationUrl) => {
-                    integration.getTeamsRef().authentication.authenticate({
-                        url: "https://box-integration-tab.herokuapp.com/?url="+ encodeURIComponent(authorizationUrl),
-                        width: 600,
-                        height: 900,
-                        successCallback: function (result) {
-                            integration
-                                .getToken(result)
-                                .then(function (access_token) {
-                                    let folderId = "0";
-                                    const contentExplorer = new Box.ContentExplorer();
-                                    contentExplorer.show(
-                                        folderId,
-                                        `${access_token}`,
-                                        {
-                                            container: ".container"
-                                        }
-                                    );
-                                });
-                        },
-                        failureCallback: (result) => {
-                            console.log(result);
-                        }
-                    });
-                });
+        window.onload = () => {
+            const accessToken = localStorage.getItem("access_token"); 
+            if (accessToken) {
+                const folderID = "0";
+                const contentExplorer = new Box.ContentExplorer();
+                contentExplorer.show(
+                    folderId,
+                    accessToken,
+                    {
+                        container: ".container"
+                    }
+                );
+            }
+        }
         </script>
-        <!-- <div class="container" style="margin: 5% 0; margin-bottom: 0; width: 100%; height: 100%; padding: 0; min-width: 320px;"></div> -->
     </body>
 </html>

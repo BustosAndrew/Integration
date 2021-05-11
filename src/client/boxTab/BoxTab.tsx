@@ -9,11 +9,15 @@ import {
     Dropdown,
     Accordion,
     List,
-    ListItem
+    ListItem,
+    FlexItem
 } from "@fluentui/react-northstar";
 import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
+import axios from "axios";
 import * as microsoftTeams from "@microsoft/teams-js";
+
+const qs = require("qs");
 
 // List items
 const items = [
@@ -47,18 +51,6 @@ const ListSelectable = () => (
     <List styles={{ width: "250px" }} selectable items={items} />
 );
 
-const inputItems = ["pdf", "docx", "pptx", "xlsx"];
-// Filter button to the right of the search bar
-const FilterSearchMultiple = () => (
-    <Dropdown
-        fluid
-        search
-        multiple
-        items={inputItems}
-        placeholder="Filter"
-        noResultsMessage="N/A"
-    />
-);
 // List of extension queries under the search bar
 const AccordionPanel = () => {
     const panels = [
@@ -71,13 +63,7 @@ const AccordionPanel = () => {
             )
         }
     ];
-    return (
-        <Accordion
-            styles={{ marginTop: "1px" }}
-            defaultActiveIndex={[0]}
-            panels={panels}
-        />
-    );
+    return <Accordion styles={{ marginTop: "1px" }} panels={panels} />;
 };
 /**
  * Implementation of the Box Tab content page
@@ -85,7 +71,7 @@ const AccordionPanel = () => {
 export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
-    const [authToken, setAuthToken] = useState("");
+    //const [signedIn, setSignedIn] = useState<boolean>(false);
 
     useEffect(() => {
         if (inTeams === true) {
@@ -109,54 +95,29 @@ export const BoxTab = () => {
             <Flex
                 fill={true}
                 styles={{
-                    padding: ".8rem 0 .8rem .5rem"
+                    padding: "1rem 0 1rem .5rem"
                 }}
                 column
             >
-                <Flex
-                    fill={true}
-                    styles={{
-                        padding: 0
-                    }}
-                >
-                    <Flex.Item
-                        styles={{ margin: "auto", marginBottom: "10px" }}
-                    >
-                        <div>
-                            <div
-                                style={{
-                                    float: "left",
-                                    minWidth: "250px",
-                                    marginBottom: "1px"
-                                }}
-                            >
-                                <Input fluid></Input>
-                            </div>
-                            <div
-                                style={{
-                                    float: "right",
-                                    maxWidth: "100px",
-                                    maxHeight: "10px"
-                                }}
-                            >
-                                <FilterSearchMultiple />
-                            </div>
-                        </div>
-                    </Flex.Item>
-                </Flex>
-                <Flex.Item styles={{ margin: "0 auto" }}>
+                {/* <Flex.Item styles={{ margin: "0 auto" }}>
                     <div>
                         <div style={{ minWidth: "200px" }}>
                             <AccordionPanel />
                         </div>
                     </div>
-                </Flex.Item>
+                </Flex.Item> */}
+                {AccessTokenExists() ||
+                    (RefreshTokenExists() ? location.reload() : false) || (
+                        <FlexItem styles={{ margin: "auto" }}>
+                            <Button onClick={SetCookies}>Login</Button>
+                        </FlexItem>
+                    )}
                 <Flex.Item
                     styles={{
-                        margin: 0,
+                        margin: "5% 0",
                         marginBottom: 0,
-                        width: "100%",
                         height: "100%",
+                        width: "100%",
                         padding: 0,
                         minWidth: "320px"
                     }}
@@ -166,4 +127,100 @@ export const BoxTab = () => {
             </Flex>
         </Provider>
     );
+};
+
+const GetTokenObject = async (code: string) => {
+    const authenticationUrl = "https://api.box.com/oauth2/token";
+    const clientDetails: any = await axios.get("/client");
+    let accessToken = await axios.post(
+        authenticationUrl,
+        qs.stringify({
+            grant_type: "authorization_code",
+            code: code,
+            client_id: `${clientDetails.data.id}`,
+            client_secret: `${clientDetails.data.secret}`
+        }),
+        { headers: { "Access-Control-Allow-Origin": "*" } }
+    );
+
+    return accessToken.data;
+};
+
+const GetRefreshTokenObj = async (token) => {
+    const authenticationUrl = "https://api.box.com/oauth2/token";
+    const clientDetails: any = await axios.get("/client");
+    let accessToken = await axios.post(
+        authenticationUrl,
+        qs.stringify({
+            client_id: `${clientDetails.data.id}`,
+            client_secret: `${clientDetails.data.secret}`,
+            refresh_token: `${token}`,
+            grant_type: "refresh_token"
+        }),
+        { headers: { "Access-Control-Allow-Origin": "*" } }
+    );
+
+    return accessToken.data;
+};
+
+const GetAuthUrl = async () => {
+    const url = await axios.get<string>("/auth", {
+        headers: { "Access-Control-Allow-Origin": "*" }
+    });
+    return url.data;
+};
+
+const SetCookies = () => {
+    GetAuthUrl().then((authorizationUrl) => {
+        microsoftTeams.authentication.authenticate({
+            url:
+                "https://box-integration-tab.herokuapp.com/?url=" +
+                encodeURIComponent(authorizationUrl),
+            width: 600,
+            height: 900,
+            successCallback: function (result: string) {
+                GetTokenObject(result).then(function (tokenObj) {
+                    document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in}`;
+                    document.cookie = `refresh_token=${
+                        tokenObj.refresh_token
+                    };max-age=${60 * 60 * 24 * 60}`; //two months
+                    localStorage.setItem(
+                        "access_token",
+                        `${tokenObj.access_token}`
+                    );
+                });
+                location.reload();
+            },
+            failureCallback: (result) => {
+                console.log(result);
+            }
+        });
+    });
+};
+
+const AccessTokenExists = (): boolean => {
+    const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("access_token="))
+        ?.split("=")[1];
+    if (cookieValue) return true;
+    return false;
+};
+
+const RefreshTokenExists = (): boolean => {
+    const cookieValue = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("access_token="))
+        ?.split("=")[1];
+    if (cookieValue) {
+        GetRefreshTokenObj(cookieValue).then((tokenObj) => {
+            document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in}`;
+            document.cookie = `refresh_token=${
+                tokenObj.refresh_token
+            };max-age=${60 * 60 * 24 * 60}`; //two months
+            localStorage.setItem("access_token", `${tokenObj.access_token}`);
+        });
+        return true;
+    }
+    return false;
 };

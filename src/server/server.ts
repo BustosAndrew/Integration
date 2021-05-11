@@ -5,7 +5,7 @@ import * as morgan from "morgan";
 import { MsTeamsApiRouter, MsTeamsPageRouter } from "express-msteams-host";
 import * as debug from "debug";
 import * as compression from "compression";
-const BoxSDK = require("box-node-sdk");
+const cookieParser = require("cookie-parser");
 
 // Initialize debug logging module
 const log = debug("msteams");
@@ -22,6 +22,8 @@ import * as allComponents from "./TeamsAppsComponents";
 // Create the Express webserver
 const express = Express();
 const port = process.env.port || process.env.PORT || 3007;
+
+express.use(cookieParser());
 
 express.get("/auth", function (req, res) {
     const baseUrl = "https://account.box.com/api/oauth2/authorize";
