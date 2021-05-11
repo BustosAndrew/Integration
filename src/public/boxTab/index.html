@@ -37,7 +37,7 @@
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/sidebar.js"></script>
         <script>
         window.onload = () => {
-            const accessToken = localStorage.getItem("access_token"); 
+            const accessToken = document.cookie.split("; ").find((row) => row.startsWith("access_token="))?.split("=")[1]; 
             if (accessToken) {
                 const folderID = "0";
                 const contentExplorer = new Box.ContentExplorer();

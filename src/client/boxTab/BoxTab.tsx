@@ -98,12 +98,15 @@ export const BoxTab = () => {
                     padding: "1rem 0 1rem .5rem"
                 }}
                 column
+                hAlign={"center"}
             >
-                <Flex.Item styles={{ margin: "0 auto" }}>
-                    <div>
-                        <div style={{ minWidth: "200px" }}>
-                            <AccordionPanel />
-                        </div>
+                <Flex.Item
+                    styles={{
+                        margin: "0 auto"
+                    }}
+                >
+                    <div style={{ paddingLeft: 0 }}>
+                        <AccordionPanel />
                     </div>
                 </Flex.Item>
                 {AccessTokenExists() ||
@@ -184,10 +187,6 @@ const SetCookies = () => {
                     document.cookie = `refresh_token=${
                         tokenObj.refresh_token
                     };max-age=${60 * 60 * 24 * 60}`; //two months
-                    localStorage.setItem(
-                        "access_token",
-                        `${tokenObj.access_token}`
-                    );
                 });
                 location.reload();
             },
@@ -210,7 +209,7 @@ const AccessTokenExists = (): boolean => {
 const RefreshTokenExists = (): boolean => {
     const cookieValue = document.cookie
         .split("; ")
-        .find((row) => row.startsWith("access_token="))
+        .find((row) => row.startsWith("refresh_token="))
         ?.split("=")[1];
     if (cookieValue) {
         GetRefreshTokenObj(cookieValue).then((tokenObj) => {
@@ -218,7 +217,6 @@ const RefreshTokenExists = (): boolean => {
             document.cookie = `refresh_token=${
                 tokenObj.refresh_token
             };max-age=${60 * 60 * 24 * 60}`; //two months
-            localStorage.setItem("access_token", `${tokenObj.access_token}`);
         });
         return true;
     }
