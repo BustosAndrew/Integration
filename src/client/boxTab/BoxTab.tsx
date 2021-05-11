@@ -183,10 +183,10 @@ const SetCookies = () => {
             height: 900,
             successCallback: function (result: string) {
                 GetTokenObject(result).then(function (tokenObj) {
-                    document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in}`;
+                    document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};secure;path=/;samesite=none`;
                     document.cookie = `refresh_token=${
                         tokenObj.refresh_token
-                    };max-age=${60 * 60 * 24 * 60}`; //two months
+                    };max-age=${60 * 60 * 24 * 60};path=/;secure;samesite=none`; //two months
                 });
                 location.reload();
             },
@@ -213,10 +213,10 @@ const RefreshTokenExists = (): boolean => {
         ?.split("=")[1];
     if (cookieValue) {
         GetRefreshTokenObj(cookieValue).then((tokenObj) => {
-            document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in}`;
+            document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};secure;path=/;samesite=none`;
             document.cookie = `refresh_token=${
                 tokenObj.refresh_token
-            };max-age=${60 * 60 * 24 * 60}`; //two months
+            };max-age=${60 * 60 * 24 * 60};path=/;secure;samesite=none`; //two months
         });
         return true;
     }
