@@ -99,16 +99,16 @@ export const BoxTab = () => {
                 }}
                 column
             >
-                {/* <Flex.Item styles={{ margin: "0 auto" }}>
+                <Flex.Item styles={{ margin: "0 auto" }}>
                     <div>
                         <div style={{ minWidth: "200px" }}>
                             <AccordionPanel />
                         </div>
                     </div>
-                </Flex.Item> */}
+                </Flex.Item>
                 {AccessTokenExists() ||
                     (RefreshTokenExists() ? location.reload() : false) || (
-                        <FlexItem styles={{ margin: "auto" }}>
+                        <FlexItem styles={{ margin: "10% auto" }}>
                             <Button onClick={SetCookies}>Login</Button>
                         </FlexItem>
                     )}
