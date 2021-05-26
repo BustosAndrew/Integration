@@ -35,9 +35,11 @@
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/uploader.js"></script>
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/openwith.js"></script>
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/sidebar.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/localstorage-slim"></script>
         <script>
         window.onload = () => {
-            const accessToken = document.cookie.split("; ").find((row) => row.startsWith("access_token="))?.split("=")[1]; 
+            // const accessToken = document.cookie.split("; ").find((row) => row.startsWith("access_token="))?.split("=")[1]; 
+            const accessToken = window.ls.get("access_token");
             if (accessToken) {
                 const folderID = "0";
                 const contentExplorer = new Box.ContentExplorer();

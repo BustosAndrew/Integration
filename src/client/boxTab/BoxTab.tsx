@@ -16,6 +16,8 @@ import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import axios from "axios";
 import * as microsoftTeams from "@microsoft/teams-js";
+import { ls } from "localstorage-slim";
+ls.encrypt = true;
 
 const qs = require("qs");
 
@@ -100,14 +102,8 @@ export const BoxTab = () => {
                 column
                 hAlign={"center"}
             >
-                <Flex.Item
-                    styles={{
-                        margin: "0 auto"
-                    }}
-                >
-                    <div style={{ paddingLeft: 0 }}>
-                        <AccordionPanel />
-                    </div>
+                <Flex.Item>
+                    <AccordionPanel />
                 </Flex.Item>
                 {AccessTokenExists() ||
                     (RefreshTokenExists() ? location.reload() : false) || (
@@ -183,10 +179,17 @@ const SetCookies = () => {
             height: 900,
             successCallback: function (result: string) {
                 GetTokenObject(result).then(function (tokenObj) {
-                    document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
-                    document.cookie = `refresh_token=${
-                        tokenObj.refresh_token
-                    };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
+                    // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
+                    // document.cookie = `refresh_token=${
+                    //     tokenObj.refresh_token
+                    // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
+                    ls.flush();
+                    ls.set("access_token", `${tokenObj.access_token}`, {
+                        ttl: 3600
+                    });
+                    ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+                        ttl: 3600 * 24 * 60
+                    });
                 });
                 location.reload();
             },
@@ -198,25 +201,32 @@ const SetCookies = () => {
 };
 
 const AccessTokenExists = (): boolean => {
-    const cookieValue = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("access_token="))
-        ?.split("=")[1];
+    // const cookieValue = document.cookie
+    //     .split("; ")
+    //     .find((row) => row.startsWith("access_token="))
+    //     ?.split("=")[1];
+    const cookieValue = ls.get("access_token");
     if (cookieValue) return true;
     return false;
 };
 
 const RefreshTokenExists = (): boolean => {
-    const cookieValue = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("refresh_token="))
-        ?.split("=")[1];
+    // const cookieValue = document.cookie
+    //     .split("; ")
+    //     .find((row) => row.startsWith("refresh_token="))
+    //     ?.split("=")[1];
+    const cookieValue = ls.get("refresh_token");
     if (cookieValue) {
         GetRefreshTokenObj(cookieValue).then((tokenObj) => {
-            document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
-            document.cookie = `refresh_token=${
-                tokenObj.refresh_token
-            };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
+            // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
+            // document.cookie = `refresh_token=${
+            //     tokenObj.refresh_token
+            // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
+            ls.flush();
+            ls.set("access_token", `${tokenObj.access_token}`, { ttl: 3600 });
+            ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+                ttl: 3600 * 24 * 60
+            });
         });
         return true;
     }
