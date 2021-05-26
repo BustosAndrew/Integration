@@ -16,8 +16,8 @@ import { useState, useEffect } from "react";
 import { useTeams } from "msteams-react-base-component";
 import axios from "axios";
 import * as microsoftTeams from "@microsoft/teams-js";
-import { ls } from "localstorage-slim";
-ls.encrypt = true;
+import ls from "localstorage-slim";
+ls.config.encrypt = true;
 
 const qs = require("qs");
 
