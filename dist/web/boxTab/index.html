@@ -37,7 +37,7 @@
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/uploader.js"></script>
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/openwith.js"></script>
         <script src="https://cdn01.boxcdn.net/platform/elements/13.0.0/en-US/sidebar.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/localstorage-slim"></script>
+        <script src="https://unpkg.com/localstorage-slim@1.8.0/dist/localstorage-slim.js"></script>
         <script>
         window.onload = () => {
             // const accessToken = document.cookie.split("; ").find((row) => row.startsWith("access_token="))?.split("=")[1]; 
@@ -53,9 +53,9 @@
                     }
                 );
             }
-            document.getElementById("log").innerHTML = `${accessToken}`;
+            document.getElementById("log").innerHTML += `${accessToken}`;
         }
-        <div id="log"></div>
         </script>
+        <div id="log">token: </div>
     </body>
 </html>
