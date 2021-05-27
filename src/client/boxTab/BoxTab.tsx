@@ -107,15 +107,15 @@ export const BoxTab = () => {
                 width: 600,
                 height: 900,
                 successCallback: function (result: string) {
-                    GetTokenObject(result).then(function (tokenObj) {
+                    GetTokenObject(result).then(function (data) {
                         // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
                         // document.cookie = `refresh_token=${
                         //     tokenObj.refresh_token
                         // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
-                        ls.set("access_token", `${tokenObj.access_token}`, {
+                        ls.set("access_token", `${data.access_token}`, {
                             ttl: 3600
                         });
-                        ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+                        ls.set("refresh_token", `${data.refresh_token}`, {
                             ttl: 3600 * 24 * 60
                         });
                     });
@@ -234,13 +234,13 @@ const RefreshTokenExists = (): boolean => {
     //     ?.split("=")[1];
     const cookieValue = ls.get("refresh_token");
     if (cookieValue) {
-        GetRefreshTokenObj(cookieValue).then((tokenObj) => {
+        GetRefreshTokenObj(cookieValue).then((data) => {
             // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
             // document.cookie = `refresh_token=${
             //     tokenObj.refresh_token
             // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
-            ls.set("access_token", `${tokenObj.access_token}`, { ttl: 3600 });
-            ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+            ls.set("access_token", `${data.access_token}`, { ttl: 3600 });
+            ls.set("refresh_token", `${data.refresh_token}`, {
                 ttl: 3600 * 24 * 60
             });
         });
