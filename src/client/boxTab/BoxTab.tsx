@@ -96,6 +96,7 @@ export const BoxTab = () => {
         } else if (RefreshTokenExists()) {
             setShowLogin(false);
             GetRefreshTokenObj(tokenObj.refresh_token).then((data) => {
+                ls.clear();
                 setTokenObj(data);
                 ls.set("access_token", `${data.access_token}`, { ttl: 3600 });
                 ls.set("refresh_token", `${data.refresh_token}`, {
@@ -120,6 +121,7 @@ export const BoxTab = () => {
                     GetTokenObject(result).then(function (data) {
                         setTokenObj(data);
                         setShowLogin(false);
+                        ls.clear();
                         ls.set("access_token", `${data.access_token}`, {
                             ttl: 3600
                         });
