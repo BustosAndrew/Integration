@@ -73,7 +73,7 @@ const AccordionPanel = () => {
 export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
-    //const [signedIn, setSignedIn] = useState<boolean>(false);
+    const [signedIn, setSignedIn] = useState<boolean>(false);
 
     useEffect(() => {
         if (inTeams === true) {
@@ -88,6 +88,14 @@ export const BoxTab = () => {
             setEntityId(context.entityId);
         }
     }, [context]);
+
+    useEffect(() => {
+        if (!AccessTokenExists() && RefreshTokenExists()) {
+            location.reload();
+        } else {
+            setSignedIn(true);
+        }
+    }, []);
 
     /**
      * The render() method to create the UI of the tab
@@ -105,12 +113,11 @@ export const BoxTab = () => {
                 <Flex.Item>
                     <AccordionPanel />
                 </Flex.Item>
-                {AccessTokenExists() ||
-                    (RefreshTokenExists() ? location.reload() : false) || (
-                        <FlexItem styles={{ margin: "10% auto" }}>
-                            <Button onClick={SetCookies}>Login</Button>
-                        </FlexItem>
-                    )}
+                {!signedIn ? (
+                    <FlexItem styles={{ margin: "10% auto" }}>
+                        <Button onClick={SetCookies}>Login</Button>
+                    </FlexItem>
+                ) : null}
                 <Flex.Item
                     styles={{
                         margin: "5% 0",
@@ -195,6 +202,12 @@ const SetCookies = () => {
             },
             failureCallback: (result) => {
                 console.log(result);
+                // try {
+                //     ls.set("failed", "uhoh", { ttl: 30 });
+                //     console.log(ls.get("failed"));
+                // } catch (error) {
+                //     console.log(error);
+                // }
             }
         });
     });
