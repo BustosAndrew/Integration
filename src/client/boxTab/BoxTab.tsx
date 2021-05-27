@@ -73,7 +73,7 @@ const AccordionPanel = () => {
 export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
-    const [signedIn, setSignedIn] = useState<boolean>(false);
+    const [showLogin, setShowLogin] = useState<boolean>(false);
 
     useEffect(() => {
         if (inTeams === true) {
@@ -88,14 +88,14 @@ export const BoxTab = () => {
             setEntityId(context.entityId);
         }
     }, [context]);
-
+    console.log(showLogin);
     useEffect(() => {
         if (!AccessTokenExists() && RefreshTokenExists()) {
             location.reload();
         } else {
-            setSignedIn(true);
+            setShowLogin(true);
         }
-    }, []);
+    });
 
     /**
      * The render() method to create the UI of the tab
@@ -113,7 +113,7 @@ export const BoxTab = () => {
                 <Flex.Item>
                     <AccordionPanel />
                 </Flex.Item>
-                {!signedIn ? (
+                {showLogin ? (
                     <FlexItem styles={{ margin: "10% auto" }}>
                         <Button onClick={SetCookies}>Login</Button>
                     </FlexItem>
