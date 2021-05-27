@@ -41,6 +41,7 @@
         <script>
         window.onload = () => { 
             const accessToken = window.ls.get("access_token");
+            const failMsg = ls.get("failed");
             if (accessToken) {
                 const folderID = "0";
                 const contentExplorer = new Box.ContentExplorer();
@@ -53,7 +54,7 @@
                 );
                 document.getElementById("log").innerHTML += `${accessToken}`;
             }
-            else {
+            else if (failMsg){
                 document.getElementById("log").innerHTML += `${window.ls.get("failed")}`;
             }
         }
