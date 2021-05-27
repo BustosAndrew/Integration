@@ -41,7 +41,8 @@
         <script>
         window.onload = () => {
             // const accessToken = document.cookie.split("; ").find((row) => row.startsWith("access_token="))?.split("=")[1]; 
-            const accessToken = window.ls.get("access_token");
+            // const accessToken = window.ls.get("access_token");
+            const accessToken = localStorage.getItem("access_token");
             if (accessToken) {
                 const folderID = "0";
                 const contentExplorer = new Box.ContentExplorer();

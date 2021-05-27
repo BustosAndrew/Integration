@@ -108,31 +108,27 @@ export const BoxTab = () => {
                 height: 900,
                 successCallback: function (result: string) {
                     GetTokenObject(result).then(function (data) {
-                        // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
-                        // document.cookie = `refresh_token=${
-                        //     tokenObj.refresh_token
-                        // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
                         ls.set("access_token", `${data.access_token}`, {
                             ttl: 3600
                         });
                         ls.set("refresh_token", `${data.refresh_token}`, {
                             ttl: 3600 * 24 * 60
                         });
+                        localStorage.setItem(
+                            "access_token",
+                            `${data.access_token}`
+                        );
+                        localStorage.setItem(
+                            "refresh_token",
+                            `${data.refresh_token}`
+                        );
                         setShowLogin(false);
                         location.reload();
                     });
                 },
                 failureCallback: (result) => {
-                    console.log(result);
-                    // try {
-                    //     ls.set("failed", "uhoh", { ttl: 30 });
-                    //     console.log(ls.get("failed"));
-                    // } catch (error) {
-                    //     console.log(error);
-                    // }
                     setShowLogin(true);
                     ls.set("failed", "failed", { ttl: 30 });
-                    console.log(showLogin);
                 }
             });
         });
