@@ -98,6 +98,44 @@ export const BoxTab = () => {
         }
     });
 
+    const SetCookies = () => {
+        GetAuthUrl().then((authorizationUrl) => {
+            microsoftTeams.authentication.authenticate({
+                url:
+                    "https://box-integration-tab.herokuapp.com/?url=" +
+                    encodeURIComponent(authorizationUrl),
+                width: 600,
+                height: 900,
+                successCallback: function (result: string) {
+                    GetTokenObject(result).then(function (tokenObj) {
+                        // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
+                        // document.cookie = `refresh_token=${
+                        //     tokenObj.refresh_token
+                        // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
+                        ls.set("access_token", `${tokenObj.access_token}`, {
+                            ttl: 3600
+                        });
+                        ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+                            ttl: 3600 * 24 * 60
+                        });
+                    });
+                    setShowLogin(false);
+                    location.reload();
+                },
+                failureCallback: (result) => {
+                    console.log(result);
+                    // try {
+                    //     ls.set("failed", "uhoh", { ttl: 30 });
+                    //     console.log(ls.get("failed"));
+                    // } catch (error) {
+                    //     console.log(error);
+                    // }
+                    setShowLogin(true);
+                }
+            });
+        });
+    };
+
     /**
      * The render() method to create the UI of the tab
      */
@@ -175,43 +213,6 @@ const GetAuthUrl = async () => {
         headers: { "Access-Control-Allow-Origin": "*" }
     });
     return url.data;
-};
-
-const SetCookies = () => {
-    GetAuthUrl().then((authorizationUrl) => {
-        microsoftTeams.authentication.authenticate({
-            url:
-                "https://box-integration-tab.herokuapp.com/?url=" +
-                encodeURIComponent(authorizationUrl),
-            width: 600,
-            height: 900,
-            successCallback: function (result: string) {
-                GetTokenObject(result).then(function (tokenObj) {
-                    // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
-                    // document.cookie = `refresh_token=${
-                    //     tokenObj.refresh_token
-                    // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
-                    ls.flush();
-                    ls.set("access_token", `${tokenObj.access_token}`, {
-                        ttl: 3600
-                    });
-                    ls.set("refresh_token", `${tokenObj.refresh_token}`, {
-                        ttl: 3600 * 24 * 60
-                    });
-                });
-                location.reload();
-            },
-            failureCallback: (result) => {
-                console.log(result);
-                // try {
-                //     ls.set("failed", "uhoh", { ttl: 30 });
-                //     console.log(ls.get("failed"));
-                // } catch (error) {
-                //     console.log(error);
-                // }
-            }
-        });
-    });
 };
 
 const AccessTokenExists = (): boolean => {
