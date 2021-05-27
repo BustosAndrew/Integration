@@ -17,7 +17,7 @@ import { useTeams } from "msteams-react-base-component";
 import axios from "axios";
 import * as microsoftTeams from "@microsoft/teams-js";
 import ls from "localstorage-slim";
-ls.config.encrypt = true;
+// ls.config.encrypt = true;
 
 const qs = require("qs");
 
@@ -131,6 +131,7 @@ export const BoxTab = () => {
                     //     console.log(error);
                     // }
                     setShowLogin(true);
+                    console.log(showLogin);
                 }
             });
         });
@@ -237,7 +238,6 @@ const RefreshTokenExists = (): boolean => {
             // document.cookie = `refresh_token=${
             //     tokenObj.refresh_token
             // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
-            ls.flush();
             ls.set("access_token", `${tokenObj.access_token}`, { ttl: 3600 });
             ls.set("refresh_token", `${tokenObj.refresh_token}`, {
                 ttl: 3600 * 24 * 60
