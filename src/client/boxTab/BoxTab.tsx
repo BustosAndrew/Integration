@@ -74,6 +74,7 @@ export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
     const [showLogin, setShowLogin] = useState<boolean>(false);
+    const [tokenObj, setTokenObj] = useState<any>();
 
     useEffect(() => {
         if (inTeams === true) {
@@ -88,10 +89,19 @@ export const BoxTab = () => {
             setEntityId(context.entityId);
         }
     }, [context]);
-    console.log(showLogin);
+
     useEffect(() => {
-        if (!AccessTokenExists() && RefreshTokenExists()) {
+        if (AccessTokenExists()) {
             setShowLogin(false);
+        } else if (RefreshTokenExists()) {
+            setShowLogin(false);
+            GetRefreshTokenObj(tokenObj.refresh_token).then((data) => {
+                setTokenObj(data);
+                ls.set("access_token", `${data.access_token}`, { ttl: 3600 });
+                ls.set("refresh_token", `${data.refresh_token}`, {
+                    ttl: 3600 * 24 * 60
+                });
+            });
             location.reload();
         } else {
             setShowLogin(true);
@@ -108,16 +118,14 @@ export const BoxTab = () => {
                 height: 900,
                 successCallback: function (result: string) {
                     GetTokenObject(result).then(function (data) {
-                        localStorage.clear();
-                        localStorage.setItem(
-                            "access_token",
-                            `${data.access_token}`
-                        );
-                        localStorage.setItem(
-                            "refresh_token",
-                            `${data.refresh_token}`
-                        );
+                        setTokenObj(data);
                         setShowLogin(false);
+                        ls.set("access_token", `${data.access_token}`, {
+                            ttl: 3600
+                        });
+                        ls.set("refresh_token", `${data.refresh_token}`, {
+                            ttl: 3600 * 24 * 60
+                        });
                         location.reload();
                     });
                 },
@@ -127,6 +135,14 @@ export const BoxTab = () => {
                 }
             });
         });
+    };
+
+    const RefreshTokenExists = (): boolean => {
+        const cookieValue = ls.get("refresh_token");
+        if (cookieValue) {
+            return true;
+        }
+        return false;
     };
 
     /**
@@ -211,18 +227,5 @@ const GetAuthUrl = async () => {
 const AccessTokenExists = (): boolean => {
     const cookieValue = ls.get("access_token");
     if (cookieValue) return true;
-    return false;
-};
-
-const RefreshTokenExists = (): boolean => {
-    const cookieValue = ls.get("refresh_token");
-    if (cookieValue) {
-        GetRefreshTokenObj(cookieValue).then((data) => {
-            localStorage.clear();
-            localStorage.setItem("access_token", `${data.access_token}`);
-            localStorage.setItem("refresh_token", `${data.refresh_token}`);
-        });
-        return true;
-    }
     return false;
 };
