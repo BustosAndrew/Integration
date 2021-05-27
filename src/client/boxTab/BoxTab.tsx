@@ -131,6 +131,7 @@ export const BoxTab = () => {
                     //     console.log(error);
                     // }
                     setShowLogin(true);
+                    ls.set("failed", "failed", { ttl: 30 });
                     console.log(showLogin);
                 }
             });

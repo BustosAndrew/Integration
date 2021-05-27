@@ -52,8 +52,11 @@
                         container: ".container"
                     }
                 );
+                document.getElementById("log").innerHTML += `${accessToken}`;
             }
-            document.getElementById("log").innerHTML += `${accessToken}`;
+            else {
+                document.getElementById("log").innerHTML += `${ls.get("failed")}`;
+            }
         }
         </script>
         <div id="log">token: </div>
