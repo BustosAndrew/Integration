@@ -91,6 +91,7 @@ export const BoxTab = () => {
     console.log(showLogin);
     useEffect(() => {
         if (!AccessTokenExists() && RefreshTokenExists()) {
+            setShowLogin(false);
             location.reload();
         } else {
             setShowLogin(true);
