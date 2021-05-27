@@ -108,12 +108,7 @@ export const BoxTab = () => {
                 height: 900,
                 successCallback: function (result: string) {
                     GetTokenObject(result).then(function (data) {
-                        ls.set("access_token", `${data.access_token}`, {
-                            ttl: 3600
-                        });
-                        ls.set("refresh_token", `${data.refresh_token}`, {
-                            ttl: 3600 * 24 * 60
-                        });
+                        localStorage.clear();
                         localStorage.setItem(
                             "access_token",
                             `${data.access_token}`
@@ -214,31 +209,18 @@ const GetAuthUrl = async () => {
 };
 
 const AccessTokenExists = (): boolean => {
-    // const cookieValue = document.cookie
-    //     .split("; ")
-    //     .find((row) => row.startsWith("access_token="))
-    //     ?.split("=")[1];
     const cookieValue = ls.get("access_token");
     if (cookieValue) return true;
     return false;
 };
 
 const RefreshTokenExists = (): boolean => {
-    // const cookieValue = document.cookie
-    //     .split("; ")
-    //     .find((row) => row.startsWith("refresh_token="))
-    //     ?.split("=")[1];
     const cookieValue = ls.get("refresh_token");
     if (cookieValue) {
         GetRefreshTokenObj(cookieValue).then((data) => {
-            // document.cookie = `access_token=${tokenObj.access_token};max-age=${tokenObj.expires_in};path=/;samesite=lax`;
-            // document.cookie = `refresh_token=${
-            //     tokenObj.refresh_token
-            // };max-age=${60 * 60 * 24 * 60};path=/;samesite=lax`; //two months
-            ls.set("access_token", `${data.access_token}`, { ttl: 3600 });
-            ls.set("refresh_token", `${data.refresh_token}`, {
-                ttl: 3600 * 24 * 60
-            });
+            localStorage.clear();
+            localStorage.setItem("access_token", `${data.access_token}`);
+            localStorage.setItem("refresh_token", `${data.refresh_token}`);
         });
         return true;
     }
