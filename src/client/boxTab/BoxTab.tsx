@@ -73,7 +73,7 @@ const AccordionPanel = () => {
 export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
-    const [showLogin, setShowLogin] = useState<boolean>(false);
+    const [showLogin, setShowLogin] = useState<boolean>(true);
     const [tokenObj, setTokenObj] = useState<any>();
 
     useEffect(() => {
@@ -121,15 +121,15 @@ export const BoxTab = () => {
                     GetTokenObject(result).then(function (data) {
                         setTokenObj(data);
                         setShowLogin(false);
-                        ls.clear();
-                        ls.set("access_token", `${data.access_token}`, {
-                            ttl: 3600
-                        });
-                        ls.set("refresh_token", `${data.refresh_token}`, {
-                            ttl: 3600 * 24 * 60
-                        });
-                        location.reload();
                     });
+                    ls.clear();
+                    ls.set("access_token", `${tokenObj.access_token}`, {
+                        ttl: 3600
+                    });
+                    ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+                        ttl: 3600 * 24 * 60
+                    });
+                    location.reload();
                 },
                 failureCallback: (result) => {
                     setShowLogin(true);
@@ -137,14 +137,6 @@ export const BoxTab = () => {
                 }
             });
         });
-    };
-
-    const RefreshTokenExists = (): boolean => {
-        const cookieValue = ls.get("refresh_token");
-        if (cookieValue) {
-            return true;
-        }
-        return false;
     };
 
     /**
@@ -229,5 +221,13 @@ const GetAuthUrl = async () => {
 const AccessTokenExists = (): boolean => {
     const cookieValue = ls.get("access_token");
     if (cookieValue) return true;
+    return false;
+};
+
+const RefreshTokenExists = (): boolean => {
+    const cookieValue = ls.get("refresh_token");
+    if (cookieValue) {
+        return true;
+    }
     return false;
 };
