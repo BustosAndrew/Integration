@@ -73,7 +73,7 @@ const AccordionPanel = () => {
 export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
-    const [showLogin, setShowLogin] = useState<boolean>(true);
+    const [showLogin, setShowLogin] = useState<boolean>(false);
     const [tokenObj, setTokenObj] = useState<any>();
 
     useEffect(() => {
@@ -96,7 +96,7 @@ export const BoxTab = () => {
         } else if (RefreshTokenExists()) {
             setShowLogin(false);
             GetRefreshTokenObj(tokenObj.refresh_token).then((data) => {
-                ls.clear();
+                // ls.clear();
                 setTokenObj(data);
                 ls.set("access_token", `${data.access_token}`, { ttl: 3600 });
                 ls.set("refresh_token", `${data.refresh_token}`, {
@@ -120,9 +120,8 @@ export const BoxTab = () => {
                 successCallback: function (result: string) {
                     GetTokenObject(result).then(function (data) {
                         setTokenObj(data);
-                        setShowLogin(false);
                     });
-                    ls.clear();
+                    // ls.clear();
                     ls.set("access_token", `${tokenObj.access_token}`, {
                         ttl: 3600
                     });

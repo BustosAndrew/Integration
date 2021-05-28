@@ -38,7 +38,7 @@
         <script src="https://unpkg.com/localstorage-slim@1.8.0/dist/localstorage-slim.js"></script>
         <script>
         window.onload = () => { 
-            const accessToken = window.ls.get("access_token");
+            const accessToken = ls.get("access_token");
             const failMsg = ls.get("failed");
             if (accessToken) {
                 const folderID = "0";
@@ -50,10 +50,10 @@
                         container: ".container"
                     }
                 );
-                document.getElementById("log").innerHTML += `${accessToken}`;
+                document.getElementById("log").innerHTML += accessToken;
             }
             else if (failMsg){
-                document.getElementById("log").innerHTML += `${window.ls.get("failed")}`;
+                document.getElementById("log").innerHTML += failMsg;
             }
         }
         </script>
