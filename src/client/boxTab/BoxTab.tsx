@@ -107,7 +107,7 @@ export const BoxTab = () => {
         } else {
             setShowLogin(true);
         }
-    });
+    }, []);
 
     const SetCookies = () => {
         GetAuthUrl().then((authorizationUrl) => {
