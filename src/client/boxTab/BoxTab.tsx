@@ -86,7 +86,7 @@ export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
     const [showLogin, setShowLogin] = useState<boolean>(false);
-    const [tokenObj, setTokenObj] = useState<any>();
+    // const [tokenObj, setTokenObj] = useState<any>();
 
     useEffect(() => {
         if (inTeams === true) {
@@ -102,25 +102,13 @@ export const BoxTab = () => {
         }
     }, [context]);
 
-    // useEffect(() => {
-    //     if (tokenObj) {
-    //         ls.set("access_token", `${tokenObj.access_token}`, {
-    //             ttl: 3600
-    //         });
-    //         ls.set("refresh_token", `${tokenObj.refresh_token}`, {
-    //             ttl: 3600 * 24 * 60
-    //         });
-    //     }
-    // }, []);
-
     useEffect(() => {
         if (AccessTokenExists()) {
             setShowLogin(false);
         } else if (RefreshTokenExists()) {
             setShowLogin(false);
-            GetRefreshTokenObj(tokenObj.refresh_token).then((data) => {
-                // ls.clear();
-                setTokenObj(data);
+            GetRefreshTokenObj(ls.get("refresh_token")).then((data) => {
+                // setTokenObj(data);
                 ls.set("access_token", `${data.access_token}`, { ttl: 3600 });
                 ls.set("refresh_token", `${data.refresh_token}`, {
                     ttl: 3600 * 24 * 60
@@ -218,7 +206,7 @@ const GetRefreshTokenObj = async (token) => {
         qs.stringify({
             client_id: `${clientDetails.data.id}`,
             client_secret: `${clientDetails.data.secret}`,
-            refresh_token: `${token}`,
+            refresh_token: token,
             grant_type: "refresh_token"
         }),
         { headers: { "Access-Control-Allow-Origin": "*" } }
