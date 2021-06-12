@@ -99,7 +99,7 @@ export const BoxTab = () => {
                 ttl: 3600 * 24 * 60
             });
         }
-    });
+    }, []);
 
     useEffect(() => {
         if (AccessTokenExists()) {
