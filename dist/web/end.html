@@ -30,13 +30,47 @@
             integrity="sha384-bcRxWKfzRyPxg/waVm3IsOnaH2Inoh5gGIJNOat79+wq22/BZ+mFuSTUmVc7l2el"
             crossorigin="anonymous"
         ></script>
+        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.10.1/qs.min.js"
+            integrity="sha512-aTKlYRb1QfU1jlF3k+aS4AqTpnTXci4R79mkdie/bp6Xm51O5O3ESAYhvg6zoicj/PD6VYY0XrYwsWLcvGiKZQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+        <script src="https://unpkg.com/localstorage-slim@1.8.0/dist/localstorage-slim.js"></script>
         <script>
+            const GetTokenObject = async (code) => {
+                const authenticationUrl = "https://api.box.com/oauth2/token";
+                const clientDetails = await axios.get("/client");
+                let accessToken = await axios.post(
+                    authenticationUrl,
+                    qs.stringify({
+                        grant_type: "authorization_code",
+                        code: code,
+                        client_id: `${clientDetails.data.id}`,
+                        client_secret: `${clientDetails.data.secret}`
+                    }),
+                    { headers: { "Access-Control-Allow-Origin": "*" } }
+                );
+
+                return accessToken.data;
+            };
             microsoftTeams.initialize();
             const code = new URLSearchParams(window.location.search).get(
                 "code"
             );
             if (code) {
-                microsoftTeams.authentication.notifySuccess(`${code}`);
+                GetTokenObject(code).then((data) => {
+                    ls.set("access_token", `${data.access_token}`, {
+                        ttl: 3600
+                    });
+                    ls.set("refresh_token", `${data.refresh_token}`, {
+                        ttl: 3600 * 24 * 60
+                    });
+                    microsoftTeams.authentication.notifySuccess(
+                        "local storage set with timer"
+                    );
+                });
             }
         </script>
     </body>
