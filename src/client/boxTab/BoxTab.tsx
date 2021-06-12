@@ -113,8 +113,8 @@ export const BoxTab = () => {
                 ls.set("refresh_token", `${data.refresh_token}`, {
                     ttl: 3600 * 24 * 60
                 });
+                location.reload();
             });
-            location.reload();
         } else {
             setShowLogin(true);
         }
