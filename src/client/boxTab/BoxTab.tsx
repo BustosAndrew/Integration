@@ -28,24 +28,36 @@ const items = [
         index={0}
         header={"Add excel extension query."}
         content={"Or type :xlsx at the end of your search."}
+        onClick={() => {
+            AppendSearchQuery(".xlsx");
+        }}
     ></ListItem>,
     <ListItem
         key={"docx"}
         index={1}
         header={"Add docx extension query."}
         content={"Or type :docx at the end of your search."}
+        onClick={() => {
+            AppendSearchQuery(".docx");
+        }}
     ></ListItem>,
     <ListItem
         key={"pptx"}
         index={2}
         header={"Add PPT extension query."}
         content={"Or type :pptx at the end of your search."}
+        onClick={() => {
+            AppendSearchQuery(".pptx");
+        }}
     ></ListItem>,
     <ListItem
         key={"pdf"}
         index={3}
         header={"Add PDF extension query."}
         content={"Or type :pdf at the end of your search."}
+        onClick={() => {
+            AppendSearchQuery(".pdf");
+        }}
     ></ListItem>
 ];
 
@@ -234,4 +246,9 @@ const RefreshTokenExists = (): boolean => {
         return true;
     }
     return false;
+};
+
+const AppendSearchQuery = (extenstion: string): void => {
+    const searchBar: any = document.querySelector(".be-search")?.children;
+    searchBar[0].value += extenstion;
 };
