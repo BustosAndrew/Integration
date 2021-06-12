@@ -61,9 +61,10 @@
                     ls.set("refresh_token", `${data.refresh_token}`, {
                         ttl: 3600 * 24 * 60
                     });
-                    microsoftTeams.authentication.notifySuccess(
-                        "local storage set with timer"
-                    );
+                    window.close();
+                    // microsoftTeams.authentication.notifySuccess(
+                    //     "local storage set with timer"
+                    // );
                 });
             }
         </script>
