@@ -32,19 +32,32 @@
         ></script>
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://unpkg.com/localstorage-slim@1.8.0/dist/localstorage-slim.js"></script>
-        <script src="bundle.js"></script>
+        <!-- <script src="bundle.js"></script> -->
         <script>
             const GetTokenObject = async (code) => {
-                const authenticationUrl = "https://api.box.com/oauth2/token";
                 const clientDetails = await axios.get("/client");
+                const params = new URLSearchParams({
+                    grant_type: "authorization_code",
+                    code: code,
+                    client_id: `${clientDetails.data.id}`,
+                    client_secret: `${clientDetails.data.secret}`
+                });
+                const authenticationUrl =
+                    "https://api.box.com/oauth2/token?" + params;
+                // let accessToken = await axios.post(
+                //     authenticationUrl,
+                //     qs.stringify({
+                //         grant_type: "authorization_code",
+                //         code: code,
+                //         client_id: `${clientDetails.data.id}`,
+                //         client_secret: `${clientDetails.data.secret}`
+                //     }),
+                //     { headers: { "Access-Control-Allow-Origin": "*" } }
+                // );
+
                 let accessToken = await axios.post(
                     authenticationUrl,
-                    qs.stringify({
-                        grant_type: "authorization_code",
-                        code: code,
-                        client_id: `${clientDetails.data.id}`,
-                        client_secret: `${clientDetails.data.secret}`
-                    }),
+                    {},
                     { headers: { "Access-Control-Allow-Origin": "*" } }
                 );
 
