@@ -41,8 +41,7 @@
                     client_id: `${clientDetails.data.id}`,
                     client_secret: `${clientDetails.data.secret}`
                 });
-                const authenticationUrl =
-                    "https://api.box.com/oauth2/token?" + params;
+                const authenticationUrl = "https://api.box.com/oauth2/token";
                 // let accessToken = await axios.post(
                 //     authenticationUrl,
                 //     qs.stringify({
@@ -54,11 +53,9 @@
                 //     { headers: { "Access-Control-Allow-Origin": "*" } }
                 // );
 
-                let accessToken = await axios.post(
-                    authenticationUrl,
-                    {},
-                    { headers: { "Access-Control-Allow-Origin": "*" } }
-                );
+                let accessToken = await axios.post(authenticationUrl, params, {
+                    headers: { "Access-Control-Allow-Origin": "*" }
+                });
 
                 return accessToken.data;
             };
