@@ -91,6 +91,17 @@ export const BoxTab = () => {
     }, [context]);
 
     useEffect(() => {
+        if (tokenObj) {
+            ls.set("access_token", `${tokenObj.access_token}`, {
+                ttl: 3600
+            });
+            ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+                ttl: 3600 * 24 * 60
+            });
+        }
+    });
+
+    useEffect(() => {
         if (AccessTokenExists()) {
             setShowLogin(false);
         } else if (RefreshTokenExists()) {
@@ -121,13 +132,12 @@ export const BoxTab = () => {
                     GetTokenObject(result).then(function (data) {
                         setTokenObj(data);
                     });
-                    // ls.clear();
-                    ls.set("access_token", `${tokenObj.access_token}`, {
-                        ttl: 3600
-                    });
-                    ls.set("refresh_token", `${tokenObj.refresh_token}`, {
-                        ttl: 3600 * 24 * 60
-                    });
+                    // ls.set("access_token", `${tokenObj.access_token}`, {
+                    //     ttl: 3600
+                    // });
+                    // ls.set("refresh_token", `${tokenObj.refresh_token}`, {
+                    //     ttl: 3600 * 24 * 60
+                    // });
                     location.reload();
                 },
                 failureCallback: (result) => {
