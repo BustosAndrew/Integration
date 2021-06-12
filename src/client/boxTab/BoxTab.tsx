@@ -27,7 +27,7 @@ const items = [
         key={"excel"}
         index={0}
         header={"Add excel extension query."}
-        content={"Or type :xlsx at the end of your search."}
+        content={"Or type .xlsx at the end of your search."}
         onClick={() => {
             AppendSearchQuery(".xlsx");
         }}
@@ -36,7 +36,7 @@ const items = [
         key={"docx"}
         index={1}
         header={"Add docx extension query."}
-        content={"Or type :docx at the end of your search."}
+        content={"Or type .docx at the end of your search."}
         onClick={() => {
             AppendSearchQuery(".docx");
         }}
@@ -45,7 +45,7 @@ const items = [
         key={"pptx"}
         index={2}
         header={"Add PPT extension query."}
-        content={"Or type :pptx at the end of your search."}
+        content={"Or type .pptx at the end of your search."}
         onClick={() => {
             AppendSearchQuery(".pptx");
         }}
@@ -54,7 +54,7 @@ const items = [
         key={"pdf"}
         index={3}
         header={"Add PDF extension query."}
-        content={"Or type :pdf at the end of your search."}
+        content={"Or type .pdf at the end of your search."}
         onClick={() => {
             AppendSearchQuery(".pdf");
         }}
