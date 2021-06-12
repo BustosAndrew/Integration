@@ -44,19 +44,19 @@
                 const folderID = "0";
                 const contentExplorer = new Box.ContentExplorer();
                 contentExplorer.show(
-                    folderId,
+                    folderID,
                     accessToken,
                     {
                         container: ".container"
                     }
                 );
-                document.getElementById("log").innerHTML += accessToken;
+                // document.getElementById("log").innerHTML += accessToken;
             }
-            else if (failMsg){
-                document.getElementById("log").innerHTML += failMsg;
-            }
+            // else if (failMsg){
+            //     document.getElementById("log").innerHTML += failMsg;
+            // }
         }
         </script>
-        <div id="log">token: </div>
+        <!-- <div id="log">token: </div> -->
     </body>
 </html>
