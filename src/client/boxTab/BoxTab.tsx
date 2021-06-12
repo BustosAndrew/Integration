@@ -129,14 +129,8 @@ export const BoxTab = () => {
                 width: 600,
                 height: 900,
                 successCallback: function (result: string) {
-                    GetTokenObject(result).then(function (data) {
-                        setTokenObj(data);
-                    });
-                    // ls.set("access_token", `${tokenObj.access_token}`, {
-                    //     ttl: 3600
-                    // });
-                    // ls.set("refresh_token", `${tokenObj.refresh_token}`, {
-                    //     ttl: 3600 * 24 * 60
+                    // GetTokenObject(result).then(function (data) {
+                    //     setTokenObj(data);
                     // });
                     location.reload();
                 },
@@ -186,22 +180,22 @@ export const BoxTab = () => {
     );
 };
 
-const GetTokenObject = async (code: string) => {
-    const authenticationUrl = "https://api.box.com/oauth2/token";
-    const clientDetails: any = await axios.get("/client");
-    let accessToken = await axios.post(
-        authenticationUrl,
-        qs.stringify({
-            grant_type: "authorization_code",
-            code: code,
-            client_id: `${clientDetails.data.id}`,
-            client_secret: `${clientDetails.data.secret}`
-        }),
-        { headers: { "Access-Control-Allow-Origin": "*" } }
-    );
+// const GetTokenObject = async (code: string) => {
+//     const authenticationUrl = "https://api.box.com/oauth2/token";
+//     const clientDetails: any = await axios.get("/client");
+//     let accessToken = await axios.post(
+//         authenticationUrl,
+//         qs.stringify({
+//             grant_type: "authorization_code",
+//             code: code,
+//             client_id: `${clientDetails.data.id}`,
+//             client_secret: `${clientDetails.data.secret}`
+//         }),
+//         { headers: { "Access-Control-Allow-Origin": "*" } }
+//     );
 
-    return accessToken.data;
-};
+//     return accessToken.data;
+// };
 
 const GetRefreshTokenObj = async (token) => {
     const authenticationUrl = "https://api.box.com/oauth2/token";
