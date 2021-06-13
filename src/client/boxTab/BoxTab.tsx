@@ -156,7 +156,7 @@ export const BoxTab = () => {
                 column
                 hAlign={"center"}
             >
-                <Flex.Item>
+                <Flex.Item styles={{ margin: "auto" }}>
                     <AccordionPanel />
                 </Flex.Item>
                 {showLogin ? (
@@ -167,7 +167,6 @@ export const BoxTab = () => {
                 <Flex.Item
                     styles={{
                         margin: "5% 0",
-                        marginBottom: 0,
                         height: "100%",
                         width: "100%",
                         padding: 0,
