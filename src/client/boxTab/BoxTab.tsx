@@ -238,5 +238,5 @@ const RefreshTokenExists = (): boolean => {
 
 const AppendSearchQuery = (extenstion: string): void => {
     const searchBar: any = document.querySelector(".be-search")?.children;
-    searchBar[0].value += extenstion;
+    searchBar[0].value += " " + extenstion;
 };
