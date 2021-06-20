@@ -2,7 +2,7 @@
 
 Generate a Microsoft Teams application.
 
-TODO: Add your documentation here
+Video example: https://youtu.be/b1wWadjCxuE
 
 ## Getting started with Microsoft Teams Apps development
 
