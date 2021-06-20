@@ -86,7 +86,7 @@ export const BoxTab = () => {
     const [{ inTeams, theme, context, themeString }] = useTeams();
     const [entityId, setEntityId] = useState<string | undefined>();
     const [showLogin, setShowLogin] = useState<boolean>(false);
-    // const [tokenObj, setTokenObj] = useState<any>();
+    const [tokenObj, setTokenObj] = useState<any>();
 
     useEffect(() => {
         if (inTeams === true) {
@@ -104,15 +104,16 @@ export const BoxTab = () => {
 
     useEffect(() => {
         if (AccessTokenExists()) {
+            console.log(tokenObj);
             setShowLogin(false);
         } else if (RefreshTokenExists()) {
             setShowLogin(false);
             GetRefreshTokenObj(ls.get("refresh_token")).then((data) => {
-                // setTokenObj(data);
                 ls.set("access_token", `${data.access_token}`, { ttl: 3600 });
                 ls.set("refresh_token", `${data.refresh_token}`, {
                     ttl: 3600 * 24 * 60
                 });
+                setTokenObj(data);
                 location.reload();
             });
         } else {
@@ -129,10 +130,16 @@ export const BoxTab = () => {
                 width: 600,
                 height: 900,
                 successCallback: function (result: string) {
-                    // GetTokenObject(result).then(function (data) {
-                    //     setTokenObj(data);
-                    // });
-                    location.reload();
+                    GetTokenObject(result).then(function (data) {
+                        ls.set("access_token", `${data.access_token}`, {
+                            ttl: 3600
+                        });
+                        ls.set("refresh_token", `${data.refresh_token}`, {
+                            ttl: 3600 * 24 * 60
+                        });
+                        setTokenObj(data);
+                        location.reload();
+                    });
                 },
                 failureCallback: (result) => {
                     setShowLogin(true);
@@ -180,22 +187,22 @@ export const BoxTab = () => {
     );
 };
 
-// const GetTokenObject = async (code: string) => {
-//     const authenticationUrl = "https://api.box.com/oauth2/token";
-//     const clientDetails: any = await axios.get("/client");
-//     let accessToken = await axios.post(
-//         authenticationUrl,
-//         qs.stringify({
-//             grant_type: "authorization_code",
-//             code: code,
-//             client_id: `${clientDetails.data.id}`,
-//             client_secret: `${clientDetails.data.secret}`
-//         }),
-//         { headers: { "Access-Control-Allow-Origin": "*" } }
-//     );
+const GetTokenObject = async (code: string) => {
+    const authenticationUrl = "https://api.box.com/oauth2/token";
+    const clientDetails: any = await axios.get("/client");
+    let accessToken = await axios.post(
+        authenticationUrl,
+        qs.stringify({
+            grant_type: "authorization_code",
+            code: code,
+            client_id: `${clientDetails.data.id}`,
+            client_secret: `${clientDetails.data.secret}`
+        }),
+        { headers: { "Access-Control-Allow-Origin": "*" } }
+    );
 
-//     return accessToken.data;
-// };
+    return accessToken.data;
+};
 
 const GetRefreshTokenObj = async (token) => {
     const authenticationUrl = "https://api.box.com/oauth2/token";

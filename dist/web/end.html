@@ -34,49 +34,47 @@
         <script src="https://unpkg.com/localstorage-slim@1.8.0/dist/localstorage-slim.js"></script>
         <!-- <script src="bundle.js"></script> -->
         <script>
-            const GetTokenObject = async (code) => {
-                const clientDetails = await axios.get("/client");
-                const params = new URLSearchParams({
-                    grant_type: "authorization_code",
-                    code: code,
-                    client_id: `${clientDetails.data.id}`,
-                    client_secret: `${clientDetails.data.secret}`
-                });
-                const authenticationUrl = "https://api.box.com/oauth2/token";
-                // let accessToken = await axios.post(
-                //     authenticationUrl,
-                //     qs.stringify({
-                //         grant_type: "authorization_code",
-                //         code: code,
-                //         client_id: `${clientDetails.data.id}`,
-                //         client_secret: `${clientDetails.data.secret}`
-                //     }),
-                //     { headers: { "Access-Control-Allow-Origin": "*" } }
-                // );
+            // const GetTokenObject = async (code) => {
+            //     const clientDetails = await axios.get("/client");
+            //     const params = new URLSearchParams({
+            //         grant_type: "authorization_code",
+            //         code: code,
+            //         client_id: `${clientDetails.data.id}`,
+            //         client_secret: `${clientDetails.data.secret}`
+            //     });
+            //     const authenticationUrl = "https://api.box.com/oauth2/token";
+            //     // let accessToken = await axios.post(
+            //     //     authenticationUrl,
+            //     //     qs.stringify({
+            //     //         grant_type: "authorization_code",
+            //     //         code: code,
+            //     //         client_id: `${clientDetails.data.id}`,
+            //     //         client_secret: `${clientDetails.data.secret}`
+            //     //     }),
+            //     //     { headers: { "Access-Control-Allow-Origin": "*" } }
+            //     // );
 
-                let accessToken = await axios.post(authenticationUrl, params, {
-                    headers: { "Access-Control-Allow-Origin": "*" }
-                });
+            //     let accessToken = await axios.post(authenticationUrl, params, {
+            //         headers: { "Access-Control-Allow-Origin": "*" }
+            //     });
 
-                return accessToken.data;
-            };
+            //     return accessToken.data;
+            // };
             microsoftTeams.initialize();
             const code = new URLSearchParams(window.location.search).get(
                 "code"
             );
             if (code) {
                 GetTokenObject(code).then((data) => {
-                    ls.set("access_token", `${data.access_token}`, {
-                        ttl: 3600
-                    });
-                    ls.set("refresh_token", `${data.refresh_token}`, {
-                        ttl: 3600 * 24 * 60
-                    });
+                    // ls.set("access_token", `${data.access_token}`, {
+                    //     ttl: 3600
+                    // });
+                    // ls.set("refresh_token", `${data.refresh_token}`, {
+                    //     ttl: 3600 * 24 * 60
+                    // });
                     // window.close();
-                    microsoftTeams.authentication.notifySuccess(
-                        "local storage set with timer"
-                    );
                 });
+                microsoftTeams.authentication.notifySuccess(code);
             }
         </script>
     </body>
