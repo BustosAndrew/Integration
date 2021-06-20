@@ -65,15 +65,15 @@
                 "code"
             );
             if (code) {
-                GetTokenObject(code).then((data) => {
-                    // ls.set("access_token", `${data.access_token}`, {
-                    //     ttl: 3600
-                    // });
-                    // ls.set("refresh_token", `${data.refresh_token}`, {
-                    //     ttl: 3600 * 24 * 60
-                    // });
-                    // window.close();
-                });
+                // GetTokenObject(code).then((data) => {
+                //     // ls.set("access_token", `${data.access_token}`, {
+                //     //     ttl: 3600
+                //     // });
+                //     // ls.set("refresh_token", `${data.refresh_token}`, {
+                //     //     ttl: 3600 * 24 * 60
+                //     // });
+                //     // window.close();
+                // });
                 microsoftTeams.authentication.notifySuccess(code);
             }
         </script>
