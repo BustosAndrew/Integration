@@ -36,27 +36,21 @@
         <script>
             // const GetTokenObject = async (code) => {
             //     const clientDetails = await axios.get("/client");
-            //     const params = new URLSearchParams({
-            //         grant_type: "authorization_code",
-            //         code: code,
-            //         client_id: `${clientDetails.data.id}`,
-            //         client_secret: `${clientDetails.data.secret}`
-            //     });
+            // const params = new URLSearchParams({
+            //     grant_type: "authorization_code",
+            //     code: code,
+            //     client_id: `${clientDetails.data.id}`,
+            //     client_secret: `${clientDetails.data.secret}`
+            // });
             //     const authenticationUrl = "https://api.box.com/oauth2/token";
-            //     // let accessToken = await axios.post(
-            //     //     authenticationUrl,
-            //     //     qs.stringify({
-            //     //         grant_type: "authorization_code",
-            //     //         code: code,
-            //     //         client_id: `${clientDetails.data.id}`,
-            //     //         client_secret: `${clientDetails.data.secret}`
-            //     //     }),
-            //     //     { headers: { "Access-Control-Allow-Origin": "*" } }
-            //     // );
 
-            //     let accessToken = await axios.post(authenticationUrl, params, {
-            //         headers: { "Access-Control-Allow-Origin": "*" }
-            //     });
+            //     const accessToken = await axios.post(
+            //         authenticationUrl,
+            //         params,
+            //         {
+            //             headers: { "Access-Control-Allow-Origin": "*" }
+            //         }
+            //     );
 
             //     return accessToken.data;
             // };

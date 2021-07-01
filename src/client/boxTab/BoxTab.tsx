@@ -90,6 +90,7 @@ export const BoxTab = () => {
 
     useEffect(() => {
         if (inTeams === true) {
+            console.log(tokenObj);
             microsoftTeams.appInitialization.notifySuccess();
         } else {
             setEntityId("Not in Microsoft Teams");
@@ -137,7 +138,7 @@ export const BoxTab = () => {
                         ls.set("refresh_token", `${data.refresh_token}`, {
                             ttl: 3600 * 24 * 60
                         });
-                        // setTokenObj(data);
+                        setTokenObj(data);
                         location.reload();
                     });
                 },
