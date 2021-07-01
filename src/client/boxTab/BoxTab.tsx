@@ -137,7 +137,7 @@ export const BoxTab = () => {
                         ls.set("refresh_token", `${data.refresh_token}`, {
                             ttl: 3600 * 24 * 60
                         });
-                        setTokenObj(data);
+                        // setTokenObj(data);
                         location.reload();
                     });
                 },
@@ -190,18 +190,28 @@ export const BoxTab = () => {
 const GetTokenObject = async (code: string) => {
     const authenticationUrl = "https://api.box.com/oauth2/token";
     const clientDetails: any = await axios.get("/client");
-    let accessToken = await axios.post(
-        authenticationUrl,
-        qs.stringify({
-            grant_type: "authorization_code",
-            code: code,
-            client_id: `${clientDetails.data.id}`,
-            client_secret: `${clientDetails.data.secret}`
-        }),
-        { headers: { "Access-Control-Allow-Origin": "*" } }
-    );
+    const params = new URLSearchParams({
+        grant_type: "authorization_code",
+        code: code,
+        client_id: `${clientDetails.data.id}`,
+        client_secret: `${clientDetails.data.secret}`
+    });
 
-    return accessToken.data;
+    const tokenObj = await axios.post(authenticationUrl, params, {
+        headers: { "Access-Control-Allow-Origin": "*" }
+    });
+    // let accessToken = await axios.post(
+    //     authenticationUrl,
+    //     qs.stringify({
+    //         grant_type: "authorization_code",
+    //         code: code,
+    //         client_id: `${clientDetails.data.id}`,
+    //         client_secret: `${clientDetails.data.secret}`
+    //     }),
+    //     { headers: { "Access-Control-Allow-Origin": "*" } }
+    // );
+
+    return tokenObj.data;
 };
 
 const GetRefreshTokenObj = async (token) => {
