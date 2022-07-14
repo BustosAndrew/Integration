@@ -1,8 +1,8 @@
-# Box-Tab - Microsoft Teams App
-
-Generate a Microsoft Teams application.
+# Box-Tab - Microsoft Teams Tab App
 
 Video example: https://youtu.be/b1wWadjCxuE
+
+Site deployment: [Box Integration](https://bit.ly/3IFIAns)
 
 ## Getting started with Microsoft Teams Apps development
 
